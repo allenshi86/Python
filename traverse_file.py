@@ -2,6 +2,7 @@
 
 import os
 
+
 def convert_encoding(file,from_encoding='gbk',to_encoding='utf8'):
     try:
         with open(file,'r',encoding=from_encoding) as f:
@@ -27,4 +28,5 @@ def listfile(path):
     else:
         print("%s is not a filepath!" %path)
 
-listfile('/Users/momo/163')
+if __name__ == '__main__':
+    listfile('/Users/momo/163')
