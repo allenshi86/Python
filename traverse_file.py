@@ -29,4 +29,5 @@ def listfile(path):
         print("%s is not a filepath!" %path)
 
 if __name__ == '__main__':
-    listfile('/Users/momo/163')
+    fpath = input("请输入您的目录路径:")
+    listfile(fpath)
