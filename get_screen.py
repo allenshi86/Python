@@ -4,6 +4,7 @@ import subprocess
 import time
 import os
 import datetime
+import pymysql
 
 #print(datetime.datetime.now())
 ##设备清单
@@ -13,21 +14,24 @@ devices = {
           }
 
 
-today = datetime.date.today()
-localtime = time.strftime('%m-%d %H:%M:%S',time.localtime(time.time()))
+#today = datetime.date.today()
+localtime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 DATA = {'name': 'admin', 'pass': '9a3bdc603c940a18467d167af15d4c8c'}
 HEADERS = {
     'Accept': 'application/json,text/javascript,*/*;q=0.01'
 }
 
+'''
 #目录创建
 def directory_create():
-    for directory  in devices.keys():
+    for directory in devices.keys():
         path = "/Users/momo/Downloads/log/%s" % directory
         if not os.path.exists(path):
             os.makedirs(path)
         else:
             pass
+
+'''
 
 #检查设备在线情况，只对在线设备索取数据
 online_devives = {}
@@ -38,6 +42,7 @@ def online_check():
         res = list(text.read().rstrip().split(" "))
         if "alive" in res:
             online_devives[device] = ip
+
 
 def login(url):
     req = requests.post(url, json=DATA, headers=HEADERS)
@@ -58,18 +63,22 @@ def get_data():
             r1.encoding,r2.encoding = 'utf8','utf8'
             r1 = eval(r1.text)
             r2 = eval(r2.text)
-                #print(r2)
-                #print(r2['screenList'])
-            with open("/Users/momo/Downloads/log/%s/%s.log" %(device,today),'a') as f:
-                if r2['screenList'] != []:
-                    f.write(r1['devicesName'] + ' ')
-                    f.write(localtime + ' ')
-                    f.write(str(r2['screenList']) + "\n")
+            client_ip = r2['screenList'][0]['ip']
+            client_hostname = r2['screenList'][0]['sendername']
+            client_screen_type = r2['screenList'][0]['type']
+            client_duation = r2['screenList'][0]['duation']
+            db = pymysql.connect(host='172.16.7.33', user='wxtp', password='Momo.20!6', database='wxtouping')
+            cursor = db.cursor()
+            cursor.execute("INSERT INTO wuxtp VALUES (%s,%s,%s,%s,%s)",(device,client_ip,client_hostname,client_screen_type,client_duation))
+            db.commit()
+#            cursor.execute("select * from wuxtp")
+#            data = cursor.fetchall()
+            db.close()
          except Exception as e:
              pass
          continue
 
 if __name__ == '__main__':
-    directory_create()
+#    directory_create()
     online_check()
     get_data()
