@@ -6,32 +6,18 @@ import os
 import datetime
 import pymysql
 
-#print(datetime.datetime.now())
-##设备清单
+#设备清单
 devices = {
            '塔2-TEST1': '172.16.161.95',
            '塔2-TEST': '172.16.161.25'
           }
 
 
-#today = datetime.date.today()
 localtime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 DATA = {'name': 'admin', 'pass': '9a3bdc603c940a18467d167af15d4c8c'}
 HEADERS = {
     'Accept': 'application/json,text/javascript,*/*;q=0.01'
 }
-
-'''
-#目录创建
-def directory_create():
-    for directory in devices.keys():
-        path = "/Users/momo/Downloads/log/%s" % directory
-        if not os.path.exists(path):
-            os.makedirs(path)
-        else:
-            pass
-
-'''
 
 #检查设备在线情况，只对在线设备索取数据
 online_devives = {}
@@ -79,6 +65,5 @@ def get_data():
          continue
 
 if __name__ == '__main__':
-#    directory_create()
     online_check()
     get_data()
