@@ -20,7 +20,7 @@ ap_single_5G = {}       #禁用双5G的AP列表.
 
 def get_double_5G(dict):
     for ap_id in dict.keys():
-        datas = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s' % (prefix_double5G_oid, ap_id)).read()
+        datas = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s' % (prefix_double5G_oid, ap_id)).read()
         value = int(datas.split(':')[-1])
         if value == 1:       #值为1，已启用双5G.值为0，未启用.
             ap_double_5G[ap_id] = dict[ap_id]
@@ -36,17 +36,17 @@ timenow = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime())
 def get_apdata_single5G(dict):
     for ap_id in dict.keys():
         try:
-            datas = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s' % (ap_channel_oid, ap_id)).read()
+            datas = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s' % (ap_channel_oid, ap_id)).read()
             if not re.findall(r'No Such Instance',datas):
-                ap_radio0_usage = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s.2' % (ap_channel_oid, ap_id)).read().split(':')[-1] #raido0 为2.4G
-                ap_radio1_usage = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s.1' % (ap_channel_oid, ap_id)).read().split(':')[-1] #raido1 为5G
-                ap_client_number_radio0 = int(os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s.2' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
-                ap_client_number_radio1 = int(os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s.1' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
+                ap_radio0_usage = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s.2' % (ap_channel_oid, ap_id)).read().split(':')[-1] #raido0 为2.4G
+                ap_radio1_usage = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s.1' % (ap_channel_oid, ap_id)).read().split(':')[-1] #raido1 为5G
+                ap_client_number_radio0 = int(os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s.2' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
+                ap_client_number_radio1 = int(os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s.1' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
             else:
-                ap_radio0_usage = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.9 %s.%s.2' % (ap_channel_oid, ap_id)).read().split(':')[-1] #raido0 为2.4G
-                ap_radio1_usage = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.9 %s.%s.1' % (ap_channel_oid, ap_id)).read().split(':')[-1] #raido1 为5G
-                ap_client_number_radio0 = int(os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.9 %s.%s.2' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
-                ap_client_number_radio1 = int(os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.9 %s.%s.1' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
+                ap_radio0_usage = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.9 %s.%s.2' % (ap_channel_oid, ap_id)).read().split(':')[-1] #raido0 为2.4G
+                ap_radio1_usage = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.9 %s.%s.1' % (ap_channel_oid, ap_id)).read().split(':')[-1] #raido1 为5G
+                ap_client_number_radio0 = int(os.popen('snmpwalk -v 2c -c Hjc4172.16.202.9 %s.%s.2' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
+                ap_client_number_radio1 = int(os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.9 %s.%s.1' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
             ap_client_number = ap_client_number_radio0 + ap_client_number_radio1
 #将数据可入数据库
             db = pymysql.connect(host='127.0.0.1', user='root', password='momo2021', database='momo')
@@ -61,17 +61,17 @@ def get_apdata_single5G(dict):
 def get_apdata_double5G(dict):
     for ap_id in dict.keys():
         try:
-            datas = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s' % (ap_channel_oid, ap_id)).read()
+            datas = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s' % (ap_channel_oid, ap_id)).read()
             if not re.findall(r'No Such Instance', datas):
-                ap_radio0_usage = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s.2' % (ap_channel_oid, ap_id)).read().split(':')[-1]  # raido0 为2.4G
-                ap_radio1_usage = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s.1' % (ap_channel_oid, ap_id)).read().split(':')[-1]  # raido1 为5G
-                ap_client_number_radio0 = int(int(os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s.2' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1]) / 2)
-                ap_client_number_radio1 = int(os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 %s.%s.1' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
+                ap_radio0_usage = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s.2' % (ap_channel_oid, ap_id)).read().split(':')[-1]  # raido0 为2.4G
+                ap_radio1_usage = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s.1' % (ap_channel_oid, ap_id)).read().split(':')[-1]  # raido1 为5G
+                ap_client_number_radio0 = int(int(os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s.2' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1]) / 2)
+                ap_client_number_radio1 = int(os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.8 %s.%s.1' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
             else:
-                ap_radio0_usage = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.9 %s.%s.2' % (ap_channel_oid, ap_id)).read().split(':')[-1]  # raido0 为2.4G
-                ap_radio1_usage = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.9 %s.%s.1' % (ap_channel_oid, ap_id)).read().split(':')[-1]  # raido1 为5G
-                ap_client_number_radio0 = int(int(os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.9 %s.%s.2' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1]) / 2)
-                ap_client_number_radio1 = int(os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ 172.16.202.9 %s.%s.1' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
+                ap_radio0_usage = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.9 %s.%s.2' % (ap_channel_oid, ap_id)).read().split(':')[-1]  # raido0 为2.4G
+                ap_radio1_usage = os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.9 %s.%s.1' % (ap_channel_oid, ap_id)).read().split(':')[-1]  # raido1 为5G
+                ap_client_number_radio0 = int(int(os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.9 %s.%s.2' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1]) / 2)
+                ap_client_number_radio1 = int(os.popen('snmpwalk -v 2c -c Hjc4 172.16.202.9 %s.%s.1' % (ap_radio_clients_oid, ap_id)).read().split(':')[-1])
 #                print(dict[ap_id],ap_client_number_radio0)
 #                print(dict[ap_id],ap_client_number_radio1)
             ap_client_number = ap_client_number_radio0 + ap_client_number_radio1
