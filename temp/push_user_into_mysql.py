@@ -17,7 +17,7 @@ localtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
 def get_user_data(ip_list):
     for ip in ip_list:
-        data = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ %s %s' % (ip, oid_userAPLocation)).read().splitlines()
+        data = os.popen('snmpwalk -v 2c -c Hjc4 %s %s' % (ip, oid_userAPLocation)).read().splitlines()
 #        print(data)
         for temp in data:
             ap_name = ''.join(re.findall(r'"(.+)"', temp))
@@ -25,7 +25,7 @@ def get_user_data(ip_list):
             user_ip = ''.join(re.findall(r'(1[7|9]2.168?.\d+.\d+)', ap_user_id))
             #print(user_id)
             ap_dict[ap_user_id] = ap_name
-            users_data = os.popen('snmpwalk -v 2c -c Hjc4QPaRZXPbJ %s %s.%s' % (ip, oid_userName, ap_user_id)).read()
+            users_data = os.popen('snmpwalk -v 2c -c Hjc4 %s %s.%s' % (ip, oid_userName, ap_user_id)).read()
             user = ''.join(re.findall(r'"(.+)"', users_data))
             if not user:
                 user = 'NONE'
