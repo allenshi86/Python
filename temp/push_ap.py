@@ -12,7 +12,7 @@ ap_name_oid = '1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.3'
 #获取AP名称和唯一标识,存入ap_info
 
 def get_all_ap():
-    ap_info_datas = os.popen('snmpwalk  -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 {}'.format(ap_name_oid))
+    ap_info_datas = os.popen('snmpwalk  -v 2c -c Hjc4 172.16.202.8 {}'.format(ap_name_oid))
     ap_info_lists = ap_info_datas.read().splitlines()
     for temp in ap_info_lists:
         ap_name = "".join(re.findall(r'"(.+)"', temp))
@@ -22,7 +22,7 @@ def get_all_ap():
 
 #过滤掉不在线的AP
 def offline_ap_filter():
-    ap_status_datas = os.popen('snmpwalk  -v 2c -c Hjc4QPaRZXPbJ 172.16.202.8 {} | grep "INTEGER: 2"'.format(ap_status_oid))
+    ap_status_datas = os.popen('snmpwalk  -v 2c -c Hjc4 172.16.202.8 {} | grep "INTEGER: 2"'.format(ap_status_oid))
     ap_status_lists = ap_status_datas.read().splitlines()
     for temp in ap_status_lists:
         offline_ap_id = "".join(re.findall(r"1.19.(.+) =", temp))
