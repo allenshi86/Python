@@ -8,8 +8,8 @@ import datetime
 #print(datetime.datetime.now())
 ##设备清单
 devices = {
-           '塔2-TEST1': '172.16.161.95',
-           '塔2-TEST': '172.16.161.25'
+           '塔2-TEST1': '172.16.xxx.xxx',
+           '塔2-TEST': '172.16.xxx.xxx'
           }
 
 
