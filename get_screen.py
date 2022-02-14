@@ -102,7 +102,7 @@ def get_data():
             client_hostname = r2['screenList'][0]['sendername']
             client_screen_type = r2['screenList'][0]['type']
             client_duation = r2['screenList'][0]['duation']
-            db = pymysql.connect(host='172.16.7.33', user='wxtp', password='Momo.20!6', database='wxtouping')
+            db = pymysql.connect(host='172.16.7.33', user='wxtp01', password='M2016', database='wxtouping')
             cursor = db.cursor()
             cursor.execute("INSERT INTO wuxtp VALUES (%s,%s,%s,%s,%s)",(device,client_ip,client_hostname,client_screen_type,client_duation))
             db.commit()
