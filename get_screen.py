@@ -17,7 +17,7 @@ devices = {
 
 
 localtime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
-DATA = {'name': 'admin01', 'pass': '9a3bdc603c67d167af21536'}
+DATA = {'name': 'admin01', 'pass': '9a3bdcyhhjj603c6yyyyy7d167af21536'}
 HEADERS = {
     'Accept': 'application/json,text/javascript,*/*;q=0.01'
 }
